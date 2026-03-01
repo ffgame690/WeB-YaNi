@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Rapport de Stage - Yani Laiche - 3&#232;me3</title>
+    
+    <!-- Polices Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Ic&#244;nes FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. Variables & Reset --- */
+        :root {
+            --primary-color: #1a252f;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --bg-color: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.85); /* Glassmorphism base */
+            --text-color: #2c3e50;
+            --text-light: #576574;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --nav-text: #2c3e50;
+            --shadow-sm: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            --shadow-md: 0 15px 35px rgba(0,0,0,0.1);
+            --shadow-glow: 0 0 15px rgba(52, 152, 219, 0.3);
+            --border-color: rgba(255, 255, 255, 0.18);
+            --overlay-hero: linear-gradient(135deg, rgba(44, 62, 80, 0.9), rgba(52, 152, 219, 0.8));
+            --transition-speed: 0.4s;
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+        }
+
+        /* Mode Sombre (Premium) */
+        body.dark-mode {
+            --primary-color: #ecf0f1;
+            --secondary-color: #5dade2;
+            --accent-color: #ff6b6b;
+            --bg-color: #0f1216;
+            --card-bg: rgba(30, 30, 30, 0.85);
+            --text-color: #ecf0f1;
+            --text-light: #bdc3c7;
+            --header-bg: rgba(18, 18, 18, 0.9);
+            --nav-text: #ecf0f1;
+            --shadow-sm: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            --shadow-glow: 0 0 20px rgba(93, 173, 226, 0.2);
+            --border-color: rgba(255, 255, 255, 0.05);
+            --overlay-hero: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 30, 40, 0.9));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- 2. Background Animations (Floating Shapes) --- */
+        .bg-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .shape {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            animation: floatShape 20s infinite alternate;
+        }
+
+        .shape-1 {
+            top: -10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+        
+        .shape-3 {
+            top: 40%;
+            left: 40%;
+            width: 300px;
+            height: 300px;
+            background: var(--primary-color);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation-delay: -10s;
+            opacity: 0.2;
+        }
+
+        @keyframes floatShape {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(50px, 50px) rotate(20deg); }
+        }
+
+        /* --- 3. Scroll Progress Bar --- */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: transparent;
+            z-index: 2000;
+        }
+        
+        .progress-bar {
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px var(--secondary-color);
+        }
+
+        /* --- 4. Typography & Base --- */
+        h1, h2, h3, h4 {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            color: var(--text-color);
+        }
+
+        p {
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* --- 5. UI Components --- */
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            z-index: 1100;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            width: 50px;
+            height: 50px;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1) rotate(180deg);
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        /* Header */
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -1px;
+            z-index: 1002;
+        }
+
+        .logo i {
+            background: -webkit-linear-gradient(45deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        nav {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--nav-text);
+            font-weight: 600;
+            font-size: 0.9rem;
+            position: relative;
+            padding: 5px 0;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: var(--secondary-color);
+            transition: width 0.3s ease;
+            box-shadow: 0 0 8px var(--secondary-color);
+        }
+
+        nav ul li a:hover::after,
+        nav ul li a.active::after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1002;
+        }
+        .bar {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin: 5px auto;
+            transition: all 0.3s ease-in-out;
+            background-color: var(--text-color);
+            border-radius: 2px;
+        }
+
+        /* --- 6. Hero Section (Enhanced) --- */
+        #page-de-garde {
+            min-height: 95vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--overlay-hero), url('https://i.postimg.cc/gcgZxqxk/cdi-logo-cdi-letter-cdi-letter-logo-design-initials-cdi-logo-linked-with-circle-and-uppercase-monogr.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Parallax */
+            color: white;
+            position: relative;
+            padding: 100px 20px 40px 20px;
+            overflow: hidden;
+        }
+
+        /* Ken Burns Effect */
+        #page-de-garde::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://i.postimg.cc/gcgZxqxk/cdi-logo-cdi-letter-cdi-letter-logo-design-initials-cdi-logo-linked-with-circle-and-uppercase-monogr.jpg');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            animation: zoomBg 20s infinite alternate;
+        }
+
+        @keyframes zoomBg {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+
+        .cover-content {
+            z-index: 2;
+            width: 100%;
+            animation: fadeInZoom 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Gradient Text Effect */
+        .gradient-text {
+            background: linear-gradient(to right, #fff, #b3e5fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cover-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .cover-content h2 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .cover-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 20px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 550px;
+            animation: slideUpFade 1s ease-out 0.5s backwards;
+        }
+
+        .cover-info p {
+            color: #fff;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 500;
+        }
+        
+        .cover-info i {
+            color: var(--secondary-color);
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            margin-top: 4rem;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            animation: bounceArrow 2.5s infinite;
+            z-index: 5;
+        }
+        .scroll-indicator span { display: block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 10px; opacity: 0.8; }
+        .scroll-indicator i { font-size: 2rem; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
+
+        /* --- 7. Sections & Cards --- */
+        section { padding: 6rem 0; position: relative; overflow: hidden; }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+            box-shadow: 0 0 10px var(--secondary-color);
+        }
+
+        /* Card Design (Glassmorphism) */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
+            border-color: var(--secondary-color);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .card:hover::before { transform: scaleX(1); }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 800;
+        }
+        
+        .card-title i {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover .card-title i {
+            transform: scale(1.2) rotate(10deg);
+            color: var(--accent-color);
+        }
+
+        /* Grid & Items */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .mission-item, .skill-category, .sentiment-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mission-item:hover, .skill-category:hover, .sentiment-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-md);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .mission-item h3, .skill-category h3, .sentiment-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-color);
+        }
+        
+        .mission-item h3 i, .skill-category h3 i, .sentiment-box h3 i {
+            font-size: 1.2em;
+            background: rgba(52, 152, 219, 0.1);
+            color: var(--secondary-color);
+            padding: 8px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .mission-item:hover h3 i, .skill-category:hover h3 i {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        /* Lists with Staggered Animation */
+        .skill-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .skill-item {
+            margin-bottom: 0.8rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0,0,0,0.03);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            opacity: 0; /* Pour l'animation JS */
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-item:hover {
+            background: rgba(52, 152, 219, 0.1);
+            transform: translateX(5px) !important;
+            color: var(--secondary-color);
+        }
+
+        .skill-item i {
+            color: #27ae60;
+        }
+        
+        body.dark-mode .skill-item {
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* --- 8. Print Button (Gradient & Ripple) --- */
+        .print-container { text-align: center; margin: 4rem 0; }
+
+        .btn-print {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-print:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.5);
+            filter: brightness(1.1);
+        }
+
+        /* --- 9. Footer --- */
+        footer {
+            background: var(--header-bg);
+            color: var(--text-color);
+            padding: 5rem 0 2rem 0;
+            text-align: center;
+            margin-top: 5rem;
+            border-top: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top, rgba(52, 152, 219, 0.1), transparent 70%);
+            pointer-events: none;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: -webkit-linear-gradient(45deg, var(--text-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            display: inline-block;
+        }
+        
+        .footer-info p { font-size: 1.1rem; color: var(--text-color); margin: 0.8rem 0; font-weight: 500; }
+        .footer-tech { margin-top: 3rem; font-size: 0.9rem; opacity: 0.5; font-family: monospace; }
+
+        /* --- 10. Animations Keyframes & Reveal --- */
+        @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes fadeInZoom { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceArrow { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-15px);} 60% {transform: translateY(-7px);} }
+
+        .reveal { opacity: 0; transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+        .reveal-left.active, .reveal-right.active { transform: translateX(0); }
+
+        /* Back to Top */
+        #backToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            color: var(--secondary-color);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-md);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 999;
+            border: 1px solid var(--border-color);
+            font-size: 1.3rem;
+            backdrop-filter: blur(10px);
+        }
+        #backToTop.show { opacity: 1; visibility: visible; transform: translateY(0); }
+        #backToTop:hover { background: var(--secondary-color); color: white; transform: translateY(-5px); }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .header-content { padding: 0 15px; }
+            .hamburger { display: block; }
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+            nav {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background: var(--header-bg);
+                width: 100%;
+                height: calc(100vh - 80px);
+                text-align: center;
+                transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border-color);
+            }
+            nav.active { left: 0; }
+            nav ul { flex-direction: column; padding: 3rem 0; gap: 2rem; }
+            .cover-content h1 { font-size: 2.2rem; }
+            .cover-info { padding: 1.5rem; margin-top: 1.5rem; }
+            .cover-info p { font-size: 0.95rem; flex-direction: column; gap: 8px; }
+            .section-title h2 { font-size: 1.8rem; }
+            .btn-print { width: 90%; justify-content: center; }
+            .theme-toggle { top: 15px; right: 80px; width: 40px; height: 40px; }
+            .shape { display: none; } /* Disable shapes on mobile for performance */
+        }
+
+        /* Print Styles */
+        @media print {
+            .theme-toggle, #backToTop, .hamburger, .btn-print, header nav, .scroll-indicator, .progress-container, .bg-shapes { display: none !important; }
+            body, .card, .mission-item, .skill-category, .sentiment-box, header, footer { background: #fff !important; color: #000 !important; box-shadow: none !important; border: 1px solid #ddd !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+            h1, h2, h3, h4, p, li, span, a { color: #000 !important; }
+            section { padding: 1rem 0 !important; page-break-inside: avoid; }
+            .container { width: 100% !important; max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+            #page-de-garde { background: none !important; color: black !important; min-height: auto !important; padding: 2rem 0 !important; border-bottom: 2px solid #000; }
+            #page-de-garde::before { display: none; }
+            .cover-content h1, .cover-content h2, .cover-info p { color: #000 !important; text-shadow: none !important; }
+            .cover-info { background: none !important; border: 1px solid #000 !important; color: #000 !important; }
+            .footer-logo { color: #000 !important; -webkit-text-fill-color: initial !important; background: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Formes flottantes en arri&#232;re-plan -->
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Barre de progression -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Bouton Dark Mode -->
+    <button class="theme-toggle" id="theme-toggle" title="Changer le th&#232;me">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <!-- Bouton Retour en Haut -->
+    <button id="backToTop" title="Remonter en haut">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Rapport<span>Stage</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#page-de-garde" class="nav-link active">Accueil</a></li>
+                    <li><a href="#introduction" class="nav-link">Intro</a></li>
+                    <li><a href="#entreprise" class="nav-link">Lieu</a></li>
+                    <li><a href="#questions" class="nav-link">Questions</a></li>
+                    <li><a href="#metier" class="nav-link">M&#233;tier</a></li>
+                    <li><a href="#missions" class="nav-link">Missions</a></li>
+                    <li><a href="#conclusion" class="nav-link">Conclusion</a></li>
+                </ul>
+            </nav>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page de garde -->
+    <section id="page-de-garde">
+        <div class="container cover-content">
+            <h1 class="gradient-text">Rapport de Stage</h1>
+            <h2>Yani Laiche - 3&#232;me3</h2>
+            <p>Stage effectu&#233; au CDI du Coll&#232;ge de Benfeld</p>
+            <p>Du 26 au 30 janvier 2026</p>
+            
+            <div class="cover-info">
+                <p><i class="fas fa-user-tie"></i> Ma&#238;tre de stage : <strong>Madame Gonzer</strong></p>
+                <p><i class="fas fa-map-marker-alt"></i> Lieu : <strong>CDI du Coll&#232;ge de Benfeld</strong></p>
+                <p><i class="fas fa-calendar-alt"></i> Dur&#233;e : <strong>1 semaine</strong></p>
+            </div>
+
+            <div class="scroll-indicator" onclick="document.getElementById('introduction').scrollIntoView({behavior: 'smooth'})">
+                <span>D&#233;couvrir</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section id="introduction" class="reveal">
+        <div class="container">
+            <div class="section-title">
+                <h2>Introduction</h2>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-question-circle"></i> Pourquoi ce stage ?</h3>
+                <p>J'ai choisi d'effectuer mon stage au CDI (Centre de Documentation et d'Information) du coll&#232;ge de Benfeld car je n'ai pas trouv&#233; de stage ailleurs dans une entreprise. Ce choix m'a finalement permis de d&#233;couvrir les diff&#233;rentes facettes du fonctionnement d'un service essentiel &#224; l'&#233;cole.</p>
+                
+                <h3 class="card-title" style="margin-top: 2rem;"><i class="fas fa-building"></i> Pourquoi ce lieu ?</h3>
+                <p>Le CDI de mon coll&#232;ge &#233;tait un choix logique et s&#233;curisant. Il m'a permis d'observer de pr&#232;s un environnement que je fr&#233;quente r&#233;guli&#232;rement en tant qu'&#233;l&#232;ve, mais cette fois-ci du point de vue du personnel.</p>
+                
+                <h3 class="card-title" style="margin-top: 2rem;"><i class="fas fa-search"></i> Recherche du stage</h3>
+                <p>Comme il s'agissait d'un stage d'observation de courte dur&#233;e, j'ai directement contact&#233; la documentaliste, Madame Gonzer. Le processus a &#233;t&#233; simple car je connaissais d&#233;j&#224; le lieu et la personne responsable.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pr&#233;sentation de l'entreprise -->
+    <section id="entreprise" class="reveal">
+        <div class="container">
+            <div class="section-title">
+                <h2>Le Lieu de Stage</h2>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-school"></i> Le CDI du Coll&#232;ge de Benfeld</h3>
+                <p>Le Centre de Documentation et d'Information est un espace vital au sein de l'&#233;tablissement. Il a pour missions principales :</p>
+                
+                <ul class="skill-list staggered-list" style="margin-top: 1.5rem;">
+                    <li class="skill-item"><i class="fas fa-check"></i> Fournir des ressources (livres, magazines, num&#233;rique)</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Apprendre &#224; rechercher et traiter l'information</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Promouvoir la lecture et la culture g&#233;n&#233;rale</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Offrir un espace calme pour le travail personnel</li>
+                </ul>
+                
+                <div style="margin-top: 2rem; background: rgba(52, 152, 219, 0.1); padding: 1.5rem; border-radius: 12px; border-left: 4px solid var(--secondary-color);">
+                    <p><strong>Organisation :</strong> Le CDI est g&#233;r&#233; par Madame Gonzer. C'est un espace lumineux divis&#233; en plusieurs zones : lecture, recherche informatique, bureaux et rayonnages.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Questions sur le Stage -->
+    <section id="questions">
+        <div class="container">
+            <div class="section-title">
+                <h2>Questions sur le Stage</h2>
+            </div>
+
+            <div class="card reveal">
+                <h3 class="card-title"><i class="fas fa-question-circle"></i> Quelles sont les activit&#233;s durant le lieu de stage ?</h3>
+                <p>Une biblioth&#232;que scolaire dans le paysage num&#233;rique, adapt&#233;e &#224; ses usagers (&#233;l&#232;ves, professeurs&#8230;) pour leurs recherches et travaux scolaires.</p>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 2rem;">
+                <div class="mission-item reveal reveal-left">
+                    <h3><i class="fas fa-history"></i> Depuis quand l&#8217;entreprise existe-t-elle ?</h3>
+                    <p>Le coll&#232;ge existe depuis <strong>1970</strong>.</p>
+                </div>
+                <div class="mission-item reveal reveal-right">
+                    <h3><i class="fas fa-clock"></i> Quels sont les horaires de fonctionnement ?</h3>
+                    <p>Ouvert de <strong>7h30</strong> jusqu&#8217;&#224; <strong>18h00</strong>.</p>
+                </div>
+            </div>
+
+            <!-- Infos sur le collège -->
+            <div class="card reveal">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i> Quels sont les services pr&#233;sents dans le coll&#232;ge ?</h3>
+                <p>Le coll&#232;ge compte <strong>6 services</strong> au total :</p>
+                <ul class="skill-list staggered-list" style="margin-top: 1rem;">
+                    <li class="skill-item"><i class="fas fa-check"></i> L&#8217;enseignement</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> La Vie Scolaire (VSC)</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> L&#8217;&#233;quipe de direction</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> La gestion</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Les agents</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Les assistantes sociales</li>
+                </ul>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 2rem;">
+                <div class="mission-item reveal reveal-left">
+                    <h3><i class="fas fa-users"></i> Combien de personnel dans le coll&#232;ge ?</h3>
+                    <p>Le coll&#232;ge accueille <strong>715 &#233;l&#232;ves</strong> ainsi que l&#8217;ensemble du personnel enseignant et administratif.</p>
+                </div>
+                <div class="mission-item reveal reveal-right">
+                    <h3><i class="fas fa-hard-hat"></i> Quelles sont les conditions de travail ?</h3>
+                    <p>Les conditions sont <strong>bonnes</strong> car le b&#226;timent a &#233;t&#233; r&#233;nov&#233; en <strong>2016</strong>.</p>
+                </div>
+            </div>
+
+            <div class="card reveal" style="background: linear-gradient(135deg, var(--card-bg) 0%, rgba(39, 174, 96, 0.1) 100%); border-left: 6px solid #27ae60;">
+                <h3 class="card-title"><i class="fas fa-bullseye"></i> Quels sont les engagements pour faire ce travail ?</h3>
+                <p>L&#8217;objectif principal est de <strong>offrir les meilleures conditions</strong> de travail possibles aux &#233;l&#232;ves, afin de favoriser leur apprentissage et leur bien-&#234;tre au sein de l&#8217;&#233;tablissement.</p>
+            </div>
+
+            <div class="card reveal">
+                <h3 class="card-title"><i class="fas fa-shield-alt"></i> Existe-t-il des consignes d&#8217;hygi&#232;ne &#224; respecter ?</h3>
+                <ul class="skill-list staggered-list">
+                    <li class="skill-item"><i class="fas fa-check"></i> D&#233;poser vestes et sacs dans les casiers pr&#233;vus &#224; cet effet</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> S&#8217;inscrire sur la liste de pr&#233;sence &#224; l&#8217;entr&#233;e</li>
+                </ul>
+            </div>
+
+            <div class="grid-2" style="margin-bottom: 2rem;">
+                <div class="sentiment-box sentiment-positive reveal reveal-left" style="border-left: 6px solid #27ae60;">
+                    <h3><i class="fas fa-thumbs-up"></i> Points positifs du m&#233;tier</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-check"></i> Libert&#233; dans le travail</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Travailler avec les &#233;l&#232;ves</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> On ne s&#8217;ennuie pas</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Travailler avec d&#8217;autres personnes</li>
+                    </ul>
+                </div>
+                <div class="sentiment-box reveal reveal-right" style="border-left: 6px solid var(--accent-color);">
+                    <h3><i class="fas fa-thumbs-down"></i> Points n&#233;gatifs du m&#233;tier</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-times" style="color: var(--accent-color);"></i> Travailler seul</li>
+                        <li class="skill-item"><i class="fas fa-times" style="color: var(--accent-color);"></i> Tout faire soi-m&#234;me</li>
+                        <li class="skill-item"><i class="fas fa-times" style="color: var(--accent-color);"></i> Malgr&#233; que c&#8217;est le CDI, travailler dans le bruit</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card reveal">
+                <h3 class="card-title"><i class="fas fa-star"></i> Qualit&#233;s personnelles utiles pour l&#8217;exercer</h3>
+                <div class="grid-2" style="margin-top: 1rem;">
+                    <div class="mission-item reveal reveal-left">
+                        <h3><i class="fas fa-handshake"></i> Sens du contact</h3>
+                        <p>Sens du contact et de l&#8217;accueil pour recevoir correctement les usagers.</p>
+                    </div>
+                    <div class="mission-item reveal reveal-right">
+                        <h3><i class="fas fa-tasks"></i> Organisation</h3>
+                        <p>Savoir organiser et g&#233;rer les ressources, l&#8217;espace et les priorit&#233;s.</p>
+                    </div>
+                    <div class="mission-item reveal reveal-left">
+                        <h3><i class="fas fa-users"></i> Travail en &#233;quipe</h3>
+                        <p>Savoir travailler en &#233;quipe avec les enseignants et autres personnels.</p>
+                    </div>
+                    <div class="mission-item reveal reveal-right">
+                        <h3><i class="fas fa-chalkboard-teacher"></i> P&#233;dagogie</h3>
+                        <p>&#202;tre p&#233;dagogue pour accompagner les &#233;l&#232;ves dans leurs recherches.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card reveal" style="background: linear-gradient(135deg, var(--card-bg) 0%, rgba(52, 152, 219, 0.12) 100%);">
+                <h3 class="card-title"><i class="fas fa-graduation-cap"></i> Comment devenir professeur-documentaliste (CDI) ?</h3>
+                <ul class="skill-list staggered-list">
+                    <li class="skill-item"><i class="fas fa-check"></i> Obtenir une <strong>Licence (L3)</strong> apr&#232;s le baccalaur&#233;at</li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Passer le <strong>concours de l&#8217;enseignement du second degr&#233;</strong></li>
+                    <li class="skill-item"><i class="fas fa-check"></i> Pr&#233;parer un <strong>Master 2 (M2E)</strong> &#8211; mention Professorat du 2nd degr&#233;</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pr&#233;sentation d'un m&#233;tier -->
+    <section id="metier">
+        <div class="container">
+            <div class="section-title">
+                <h2>Le M&#233;tier</h2>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Professeur-documentaliste</h3>
+                <p>Madame Gonzer m'a expliqu&#233; que son m&#233;tier est &#224; la fois technique, p&#233;dagogique et relationnel.</p>
+                
+                <div class="grid-2" style="margin-top: 2rem;">
+                    <div class="mission-item reveal reveal-left">
+                        <h3><i class="fas fa-book"></i> Gestion</h3>
+                        <p>S&#233;lection, achat, classement et d&#233;sherbage des documents. Elle g&#232;re le budget.</p>
+                    </div>
+                    
+                    <div class="mission-item reveal reveal-right">
+                        <h3><i class="fas fa-users"></i> Accueil</h3>
+                        <p>Accueillir les &#233;l&#232;ves, orienter leurs recherches et maintenir l'ordre.</p>
+                    </div>
+                    
+                    <div class="mission-item reveal reveal-left">
+                        <h3><i class="fas fa-laptop-code"></i> Technique</h3>
+                        <p>Gestion du logiciel documentaire (BCDI) et maintenance informatique de base.</p>
+                    </div>
+                    
+                    <div class="mission-item reveal reveal-right">
+                        <h3><i class="fas fa-presentation"></i> P&#233;dagogie</h3>
+                        <p>Intervenir en classe pour former les &#233;l&#232;ves &#224; la recherche documentaire.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mes missions -->
+    <section id="missions">
+        <div class="container">
+            <div class="section-title">
+                <h2>Mes Missions</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div class="mission-item reveal reveal-left">
+                    <h3><i class="fas fa-tools"></i> Maintenance Info</h3>
+                    <p>J'ai r&#233;par&#233; les ordinateurs des postes 3 et 8 (v&#233;rification c&#226;bles, red&#233;marrage, nettoyage).</p>
+                </div>
+                
+                <div class="mission-item reveal reveal-right">
+                    <h3><i class="fas fa-book-medical"></i> &#201;quipement</h3>
+                    <p>Pr&#233;paration des livres neufs : rognage, pose de couverture plastique et code-barres.</p>
+                </div>
+                
+                <div class="mission-item reveal reveal-left">
+                    <h3><i class="fas fa-broom"></i> Rangement</h3>
+                    <p>Nettoyage et r&#233;organisation compl&#232;te d'une salle annexe pour trier les vieux documents.</p>
+                </div>
+                
+                <div class="mission-item reveal reveal-right">
+                    <h3><i class="fas fa-sort-amount-down"></i> Classement</h3>
+                    <p>Participation au r&#233;colement (inventaire) et au classement de p&#233;riodiques.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comp&#233;tences d&#233;velopp&#233;es -->
+    <section id="competences">
+        <div class="container">
+            <div class="section-title">
+                <h2>Comp&#233;tences</h2>
+            </div>
+            
+            <div class="grid-2">
+                <div class="skill-category reveal reveal-left">
+                    <h3><i class="fas fa-pen-nib"></i> Langue Fran&#231;aise</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-check"></i> R&#233;daction structur&#233;e</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Respect orthographe/grammaire</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Vocabulaire pr&#233;cis</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category reveal reveal-right">
+                    <h3><i class="fas fa-laptop"></i> Num&#233;rique</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-check"></i> R&#233;alisation du rapport num&#233;rique</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Insertion et citation sources</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Autonomie informatique</li>
+                    </ul>
+                </div>
+                
+                <div class="skill-category reveal reveal-left">
+                    <h3><i class="fas fa-tasks"></i> Organisation</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-check"></i> Planification logique</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Exhaustivit&#233; des informations</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Organisation durant la semaine</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category reveal reveal-right">
+                    <h3><i class="fas fa-robot"></i> Int&#233;grit&#233;</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-check"></i> R&#233;daction sans IA</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Honn&#234;tet&#233; intellectuelle</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section id="conclusion" style="background: rgba(0,0,0,0.02);">
+        <div class="container">
+            <div class="section-title">
+                <h2>Bilan & Comp&#233;tences</h2>
+            </div>
+            
+            <div class="grid-2" style="margin-top: 2rem;">
+                <div class="sentiment-box sentiment-positive reveal reveal-left">
+                    <h3><i class="fas fa-thumbs-up"></i> Positif</h3>
+                    <p>J'ai appr&#233;ci&#233; la diversit&#233; des t&#226;ches. La maintenance informatique correspondait particuli&#232;rement &#224; mes centres d'int&#233;r&#234;t. L'ambiance calme du CDI est propice &#224; la concentration.</p>
+                </div>
+                
+                <div class="sentiment-box sentiment-learning reveal reveal-right">
+                    <h3><i class="fas fa-check-circle"></i> Comp&#233;tences</h3>
+                    <ul class="skill-list staggered-list">
+                        <li class="skill-item"><i class="fas fa-check"></i> Organisation et pr&#233;cision</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> M&#233;thodologie de travail</li>
+                        <li class="skill-item"><i class="fas fa-check"></i> Utilisation du num&#233;rique</li>
+                    </ul>
+                </div>
+                
+                <div class="sentiment-box sentiment-negative reveal" style="grid-column: 1 / -1; border-left: 6px solid var(--accent-color);">
+                    <h3><i class="fas fa-exclamation-circle"></i> Difficult&#233;s</h3>
+                    <p>Le rognage des livres &#233;tait une t&#226;che tr&#232;s r&#233;p&#233;titive demandant beaucoup de patience. J'aurais pu &#234;tre un peu plus proactif pour demander de l'aide.</p>
+                </div>
+            </div>
+
+            <div class="card reveal" style="margin-top: 3rem; text-align: center; background: linear-gradient(135deg, var(--card-bg) 0%, rgba(52, 152, 219, 0.15) 100%);">
+                <h3 class="card-title"><i class="fas fa-heart"></i> Remerciements</h3>
+                <p>Je remercie chaleureusement <strong>Madame Gonzer</strong> pour m'avoir accueilli pendant cette semaine de stage, pour sa gentillesse et pour toutes les explications. Merci &#224; l'&#233;quipe du coll&#232;ge de Benfeld.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bouton d'impression -->
+    <div class="container print-container">
+        <button class="btn-print" onclick="window.print()">
+            <i class="fas fa-print"></i> Imprimer
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-logo">RapportStage</div>
+            
+            <div class="footer-info">
+                <p><strong>Yani Laiche</strong> - Classe de 3&#232;me3</p>
+                <p>Coll&#232;ge de Benfeld - Ann&#233;e scolaire 2025-2026</p>
+            </div>
+            
+            <div class="footer-tech">
+                <p>Site web r&#233;alis&#233; en HTML5 et CSS3.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            window.addEventListener('scroll', () => {
+                const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (scrollTop / scrollHeight) * 100;
+                progressBar.style.width = scrolled + "%";
+            });
+
+            // 2. Dark Mode
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const icon = themeToggle.querySelector('i');
+
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+
+            // 3. Mobile Menu
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+
+            // 4. ScrollSpy
+            const sections = document.querySelectorAll('section');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (pageYOffset >= (sectionTop - 200)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+
+            // 5. Animations au scroll & Staggered Lists
+            const revealElements = document.querySelectorAll('.reveal');
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        
+                        // Si la section contient une liste staggered, animer les items
+                        const list = entry.target.querySelector('.staggered-list');
+                        if(list) {
+                            const items = list.querySelectorAll('.skill-item');
+                            items.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'translateX(0)';
+                                }, index * 100); // D&#233;lai de 100ms entre chaque item
+                            });
+                        }
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            revealElements.forEach(el => revealObserver.observe(el));
+
+            // 6. Bouton Back to Top
+            const backToTopBtn = document.getElementById('backToTop');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 500) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
